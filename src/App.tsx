@@ -8,6 +8,7 @@ import { VolunteerBoardBanner } from './components/volunteer/VolunteerBoardBanne
 import { VolunteerBoard } from './components/volunteer/VolunteerBoard'
 import { CreateVolunteerRequestModal } from './components/volunteer/CreateVolunteerRequestModal'
 import { MessagingModal } from './components/common/MessagingModal'
+import { PostOfferModal } from './components/feed/PostOfferModal'
 import { CategoryFilter } from './components/filters/CategoryFilter'
 import { DistanceFilter } from './components/filters/DistanceFilter'
 import { OfferCard } from './components/feed/OfferCard'
@@ -101,6 +102,8 @@ function App() {
   const [showCreateVolunteerRequest, setShowCreateVolunteerRequest] = useState(false)
   const [showMessaging, setShowMessaging] = useState(false)
   const [messagingRecipient, setMessagingRecipient] = useState<{ name: string; offerId: string; offerTitle: string } | null>(null)
+  const [showPostModal, setShowPostModal] = useState(false)
+  const [editingOffer, setEditingOffer] = useState<Offer | null>(null)
   
   const [offers, setOffers] = useState<Offer[]>(mockOffers)
   const [myOffers, setMyOffers] = useState<string[]>([])
@@ -136,7 +139,8 @@ function App() {
 
   const handleEdit = (offer: Offer, e: React.MouseEvent) => {
     e.stopPropagation()
-    alert('Edit functionality - implement PostOfferModal component')
+    setEditingOffer(offer)
+    setShowPostModal(true)
   }
 
   const handleDelete = (offerId: string, e: React.MouseEvent) => {
@@ -164,6 +168,33 @@ function App() {
 
     setShowCreateVolunteerRequest(false)
     alert('Volunteer request submitted! It will be reviewed by community moderators.')
+  }
+
+  const handleSubmitOffer = (offerData: Partial<Offer>) => {
+    if (editingOffer) {
+      // Update existing offer
+      setOffers(offers.map(o => 
+        o.id === editingOffer.id 
+          ? { ...o, ...offerData }
+          : o
+      ))
+    } else {
+      // Create new offer
+      const newOfferId = String(Date.now())
+      const newOffer: Offer = {
+        id: newOfferId,
+        ...offerData,
+        lat: location?.lat || 36.7210,
+        lng: location?.lng || -4.4180,
+        city: 'Málaga'
+      } as Offer
+      
+      setOffers([newOffer, ...offers])
+      setMyOffers([...myOffers, newOfferId])
+    }
+    
+    setEditingOffer(null)
+    setShowPostModal(false)
   }
 
   const getDistanceLabel = () => {
@@ -246,8 +277,8 @@ function App() {
         </div>
 
         <button
-          onClick={() => alert('Implement PostOfferModal component')}
-          className="fixed bottom-8 right-8 bg-green-600 text-white rounded-full p-4 shadow-lg hover:bg-green-700 transition-all hover:scale-110"
+          onClick={() => setShowPostModal(true)}
+          className="fixed bottom-8 right-8 bg-[#6B8E23] text-white rounded-full p-4 shadow-lg hover:bg-[#5A7A1E] transition-all hover:scale-110"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -374,6 +405,17 @@ function App() {
             setShowMessaging(false)
             setMessagingRecipient(null)
           }}
+        />
+      )}
+
+      {showPostModal && (
+        <PostOfferModal
+          onClose={() => {
+            setShowPostModal(false)
+            setEditingOffer(null)
+          }}
+          onSubmit={handleSubmitOffer}
+          editingOffer={editingOffer}
         />
       )}
     </div>

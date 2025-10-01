@@ -93,26 +93,22 @@ export function ProfileScreen({ profile, onClose }: ProfileScreenProps) {
             </span>
           </div>
 
-          <div className="grid grid-cols-5 gap-3">
-            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-3 text-center">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 text-center">
               <div className="text-2xl font-bold text-green-700">{profile.stats.offersPosted}</div>
-              <div className="text-xs text-gray-600">Offers</div>
+              <div className="text-xs text-gray-600 mt-1">Offers Posted</div>
             </div>
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-3 text-center">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 text-center">
               <div className="text-2xl font-bold text-blue-700">{profile.stats.exchangesCompleted}</div>
-              <div className="text-xs text-gray-600">Exchanges</div>
+              <div className="text-xs text-gray-600 mt-1">Exchanges</div>
             </div>
-            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-3 text-center">
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 text-center">
               <div className="text-2xl font-bold text-purple-700">{profile.stats.volunteerHours}</div>
-              <div className="text-xs text-gray-600">Vol. Hours</div>
+              <div className="text-xs text-gray-600 mt-1">Vol. Hours</div>
             </div>
-            <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-3 text-center">
+            <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4 text-center">
               <div className="text-2xl font-bold text-orange-700">{profile.stats.responseRate}%</div>
-              <div className="text-xs text-gray-600">Response</div>
-            </div>
-            <div className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-pink-700">{profile.stats.avgResponseTime}</div>
-              <div className="text-xs text-gray-600">Avg Time</div>
+              <div className="text-xs text-gray-600 mt-1">Response Rate</div>
             </div>
           </div>
         </div>
