@@ -13,7 +13,6 @@ import { CategoryFilter } from './components/filters/CategoryFilter'
 import { DistanceFilter } from './components/filters/DistanceFilter'
 import { OfferCard } from './components/feed/OfferCard'
 
-// Mock offers data
 const mockOffers: Offer[] = [
   {
     id: '1',
@@ -172,14 +171,12 @@ function App() {
 
   const handleSubmitOffer = (offerData: Partial<Offer>) => {
     if (editingOffer) {
-      // Update existing offer
       setOffers(offers.map(o => 
         o.id === editingOffer.id 
           ? { ...o, ...offerData }
           : o
       ))
     } else {
-      // Create new offer
       const newOfferId = String(Date.now())
       const newOffer: Offer = {
         id: newOfferId,
@@ -211,30 +208,19 @@ function App() {
     <div className="min-h-screen bg-[#FAF7F2]">
       <header className="bg-white shadow-sm sticky top-0 z-10 border-b border-[#8B7355]">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-center relative">
-            <div className="text-center">
-              <h1 className="text-3xl font-bold text-[#6B8E23] mb-2">Nearby</h1>
-              <p className="text-base text-gray-600 mb-2">
-                Where neighbours become helpers
-              </p>
-              {location && (
-                <div className="flex items-center justify-center gap-1 text-sm text-gray-500">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  <span>Málaga, Spain</span>
-                </div>
-              )}
-            </div>
-            <button
-              onClick={() => setShowProfile(true)}
-              className="p-2 hover:bg-[#FAF7F2] rounded-full transition-colors absolute right-0"
-              aria-label="View Profile"
-            >
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </button>
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-[#6B8E23]">Nearby</h1>
+            <p className="text-base text-gray-600 mb-2">
+              Where neighbours become helpers
+            </p>
+            {location && (
+              <div className="flex items-center justify-center gap-1 text-sm text-gray-500">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                </svg>
+                <span>Málaga, Spain</span>
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -246,7 +232,18 @@ function App() {
         />
 
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">Near You</h2>
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-xl font-semibold text-gray-800">Near You</h2>
+            <button
+              onClick={() => setShowProfile(true)}
+              className="w-9 h-9 bg-[#E8D5C4] hover:bg-[#D4C4B4] rounded-full transition-colors flex items-center justify-center"
+              aria-label="View Profile"
+            >
+              <svg className="w-5 h-5 text-[#5A4A3A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </button>
+          </div>
           <p className="text-sm text-gray-600 mb-4">
             {filteredOffers.length} of {offers.length} offers • {getDistanceLabel()}
           </p>
